@@ -1,0 +1,29 @@
+<!DOCTYPE HTML >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+	<form action="#" th:action="@{/save}"
+					 th:object="${item}" method="POST">
+		
+		<!-- Add hidden form field to handle updates -->
+		<input type="hidden" th:field="*{id}" />
+		
+		<input type="text" th:field="*{name}">
+		<input type="number" th:field="*{price}">
+		<input type="text" th:field="*{category}">
+		
+		<button type="submit">Add to Inventory</button>
+			
+	</form>
+</body>
+
+</html>

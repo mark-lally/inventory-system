@@ -1,0 +1,38 @@
+<!DOCTYPE HTML >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+	<table>
+		<thead>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Category</th>
+		</thead>
+		
+		<tbody>
+			<tr th:each="tempItem: ${items}">
+				<td th:text="${tempItem.name}"></td>
+				<td th:text="${tempItem.price}"></td>
+				<td th:text="${tempItem.category}"></td>
+				<td>
+					<a th:href="@{/update(itemId=${tempItem.id})}">Edit Item</a>
+				</td>
+				<td>
+					<a th:href="@{/update(itemId=${tempItem.id})}">Edit Item</a>
+				</td>
+		</tbody>
+	</table>
+	<br><br>
+	<a th:href="@{/addItemForm}">Form</a>
+</body>
+
+</html>

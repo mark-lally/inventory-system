@@ -20,7 +20,7 @@ import com.MarkLally.InventorySystem.repository.ItemRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class InventorySystemApplicationTests {
+public class ItemOperationTests {
 	
 	Item exampleItem1, exampleItem2;
 	List<Item> itemList;
@@ -30,7 +30,7 @@ public class InventorySystemApplicationTests {
 	
 	@Before
 	public void setup() {
-		exampleItem1 = new Item("Pen", 500, "School Appliances");
+		exampleItem1 = new Item(1, "Pen", 500, "School Appliances");
 		exampleItem2 = new Item();
 		itemList = new ArrayList<Item>();
 	}
@@ -54,21 +54,24 @@ public class InventorySystemApplicationTests {
 	
 	@Test
 	public void testCRUDOperations() {
-		
+		// Saving
 		repo.save(exampleItem1);
 		assertNotEquals(Optional.empty(), repo.findById(1));
 		assertTrue(repo.findById(1).get().getName().equals("Pen"));
 		
 		assertEquals(Optional.empty(), repo.findById(2));
 		
+		// Reading
 		itemList = repo.findAll();
 		assertTrue(itemList.size() == 1);
 		
+		// Updating	
 		Item temp = repo.findById(1).get();
 		temp.setName("Biro");
 		repo.save(temp);
 		assertTrue(repo.findById(1).get().getName().equals("Biro"));
 		
+		// Deleting
 		repo.deleteById(1);
 		assertEquals(Optional.empty(), repo.findById(1));
 		itemList = repo.findAll();
