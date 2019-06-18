@@ -11,11 +11,41 @@
 </head>
 
 <body>
-	<table>
-		<thead>
-			<th>Name</th>
-			<th>Price</th>
-			<th>Category</th>
+
+	<!-- Banner -->
+	<div style="background-color: silver">
+		<h1 style="text-align: center">Inventory</h1>
+		<br><br>
+		<!-- Add to Inventory Button -->
+		<a th:href="@{/addItemForm}"
+			class ="btn btn-warning btn-lrg"
+			style="float: right">
+			Add an Item
+		</a>
+		<div >
+			
+			<form th:action="@{/filter}" method="GET">
+				<input type="text" th:name="searchTerm" th:placeholder="Category" class="form-control col-4" />
+				<button 
+					class ="btn btn-primary btn-lrg"
+					type="submit">
+					Apply Filters
+				</button>
+			</form>
+			
+		</div>
+		<br><br>
+		<h3 th:text=" 'Displaying: ' +${items.size()} + ' out of a maximum of 200 Results'" style="text-align: center"></h3>
+		<br>
+		
+	</div>
+
+	<table class="table table-striped table-bordered" style="text-align: center">
+		<thead class="thead-dark">
+			<th style="width: 25%">Name</th>
+			<th style="width: 10%">Price</th>
+			<th style="width: 25%">Category</th>
+			<th style="width: 25%">Actions</th>
 		</thead>
 		
 		<tbody>
@@ -23,16 +53,33 @@
 				<td th:text="${tempItem.name}"></td>
 				<td th:text="${tempItem.price}"></td>
 				<td th:text="${tempItem.category}"></td>
+				
+				<!-- Update and Delete buttons-->
 				<td>
-					<a th:href="@{/update(itemId=${tempItem.id})}">Edit Item</a>
-				</td>
-				<td>
-					<a th:href="@{/update(itemId=${tempItem.id})}">Edit Item</a>
+					<a th:href="@{/update(itemId=${tempItem.id})}"
+						class ="btn btn-info btn-sm">
+						Edit Item
+					</a>
+				
+					<a th:href="@{/delete(itemId=${tempItem.id})}"
+						class ="btn btn-danger btn-sm">
+						Delete Item
+					</a>
 				</td>
 		</tbody>
 	</table>
-	<br><br>
-	<a th:href="@{/addItemForm}">Form</a>
+	
+	<footer style="text-align: center;background-color: silver">
+		<div >
+			<br><br>
+			<a th:href="@{/}" 
+				class="btn btn-success btn-lrg">
+				Back to Top
+			</a>
+			<br><br>
+		</div>
+	</footer>
+	
 </body>
 
 </html>

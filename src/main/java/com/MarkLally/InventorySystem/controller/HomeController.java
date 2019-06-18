@@ -46,7 +46,7 @@ public class HomeController {
 	public String save(@ModelAttribute("item") Item itemToSave) {
 		
 		itemRepo.save(itemToSave);
-		// Return to index (default mapping for index.html is "/" which is equivalent to "")
+		// Redirect to prevent duplicate submissions
 		return "redirect:";
 	}
 	
@@ -65,9 +65,29 @@ public class HomeController {
 		else // if null
 			throw new RuntimeException("Error finding item. No item with the id: " + idOfItemToEdit);
 		
-		// Prepopulate the form with the item to edit's details
+		// Pre-populate the form with the item to edit's details
 		theModel.addAttribute("item", itemToEdit);
 		
 		return "addItemForm";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("itemId") int idOfItemToDelete) {
+		
+		// JpaRepository built-in delete method
+		itemRepo.deleteById(idOfItemToDelete);
+		
+		// Refresh index to load list based on updated model
+		return "redirect:";
+	}
+	
+	@GetMapping("/filter")
+	public String filter(@RequestParam(value="searchTerm", required=false) String searchTerm, Model theModel) {
+		
+		// Call custom query on search term and apply result to model
+		itemList = itemRepo.findByCategoryIgnoreCase(searchTerm);		
+		theModel.addAttribute("items", itemList);
+		
+		return "index";
 	}
 }
