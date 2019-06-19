@@ -100,8 +100,22 @@ public class HomeController {
 		itemList = itemRepo.findByPriceBetween(minPrice, maxPrice);
 		theModel.addAttribute("items", itemList);
 		
-		return "index";
+		return "index";		
+	}
+	
+	@GetMapping("/getMostRecent")
+	public String getMostRecent(Model theModel) {
 		
+		itemList = itemRepo.findTop5ByOrderByDateDesc();
+		theModel.addAttribute("items", itemList);
+		
+		return "index";
+	}
+	
+	@GetMapping("/filterForm")
+	public String filterForm() {
+		
+		return "filter";
 	}
 	
 }

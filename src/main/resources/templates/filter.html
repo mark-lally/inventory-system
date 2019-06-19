@@ -1,0 +1,80 @@
+<!DOCTYPE HTML >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+	
+	<!-- Search Filters -->
+		<div style="background-color: white" class="col-4">
+			<p class="h3 mb-4">Search Filters</p>
+			
+			<!-- Category Filter Form -->
+			<form th:action="@{/filterCategory}" method="GET">
+				
+				<!-- Category Filter text -->
+				<div class="form-group row">
+					<label class="col-form-label col-sm-2" for="category">Category</label>
+					<div class="col-sm-10">
+						<input type="text" th:name="searchTerm" 
+							th:placeholder="Category" class="form-control mb-4"
+							id="category"/>
+					</div>
+				</div>
+				
+				<!-- Category Search button -->
+				<div class="form-group">			
+					<div class="col-sm-10">
+						<button 
+							class ="btn btn-primary btn-med mb-4"
+							type="submit"
+							>
+							Apply Filter
+						</button>
+					</div>
+				</div>
+				
+			</form>	
+		  	
+			<!-- Price Filter Form -->
+			<form th:action="@{/filterPrice}" method="GET">
+				
+				<!-- Price inputs -->
+				<div class="form-group row">
+					<div class="col">
+						<label class="col-form-label " for="min">Minimum Price</label>					
+							<input type="number" th:name ="min" class="form-control mb-2" id="min" />
+					</div>
+					
+					<div class="col">	
+						<label class="col-form-label " for="max">Maximum Price</label>
+							<input type="number" th:name ="max" class="form-control mb-2" id="max" />					
+					</div>
+				</div>	
+				
+				<!-- Price Search Button -->
+				<div class="form-group">			
+					<div class="col-sm-10">
+						<button 
+							class ="btn btn-primary btn-med mb-4"
+							type="submit"
+							>
+							Apply Filter
+						</button>
+					</div>
+				</div>
+				
+			</form>
+			
+		</div>
+	
+</body>
+
+</html>

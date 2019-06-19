@@ -15,110 +15,73 @@
 	<!-- Banner -->
 	<div style="background-color: silver">
 		<h1 style="text-align: center">Inventory</h1>
+		
 		<br><br>
-		<!-- Add to Inventory Button -->
-		<a th:href="@{/addItemForm}"
-			class ="btn btn-warning btn-lrg"
-			style="float: right">
-			Add an Item
+		
+		<!-- Filter Screen Link -->
+		<a th:href="@{/filterForm}"
+			class ="btn btn-warning btn-lrg ml-4"
+			style="float: left;">
+			Filter Results
 		</a>
 		
-		<div style="background-color: white" class="col-4">
-			<p class="h3 mb-4">Search Filters</p>
+		<!-- Add to Inventory Link Button -->
+		<a th:href="@{/addItemForm}"
+			class="btn btn-warning btn-lrg mr-4"
+			style="float: right"
+			th:classappend="${items.size() >= 6} ? disabled : ''"
+			>
+			<span th:text="${items.size() >= 6} ? 'Inventory is full! Delete some items' : 'Add an Item'"></span>
+		</a>
+		
+		
+		
+		<!-- Result Count Heading -->
+		<div style="text-align: center">
+			<br><br>
+			<h3 th:text=" 'Displaying: ' +${items.size()} + ' out of a maximum of 200 Results'" style="text-align: center"></h3>
+			<br>
 			
-			<!-- Category Filter Form -->
-			<form th:action="@{/filterCategory}" method="GET">
-				
-				<!-- Category Filter text -->
-				<div class="form-group row">
-					<label class="col-form-label col-sm-2" for="category">Category</label>
-					<div class="col-sm-10">
-						<input type="text" th:name="searchTerm" 
-							th:placeholder="Category" class="form-control mb-4"
-							id="category"/>
-					</div>
-				</div>
-				
-				<!-- Category Search button -->
-				<div class="form-group">			
-					<div class="col-sm-10">
-						<button 
-							class ="btn btn-primary btn-med mb-4"
-							type="submit"
-							>
-							Apply Filter
-						</button>
-					</div>
-				</div>
-				
-			</form>	
-		  	
-			<!-- Price Filter Form -->
-			<form th:action="@{/filterPrice}" method="GET">
-				
-				<!-- Price inputs -->
-				<div class="form-group row">
-					<div class="col">
-						<label class="col-form-label " for="min">Minimum Price</label>					
-							<input type="number" th:name ="min" class="form-control mb-2" id="min" />
-					</div>
-					
-					<div class="col">	
-						<label class="col-form-label " for="max">Maximum Price</label>
-							<input type="number" th:name ="max" class="form-control mb-2" id="max" />					
-					</div>
-				</div>	
-				
-				<!-- Price Search Button -->
-				<div class="form-group">			
-					<div class="col-sm-10">
-						<button 
-							class ="btn btn-primary btn-med mb-4"
-							type="submit"
-							>
-							Apply Filter
-						</button>
-					</div>
-				</div>
-				
-			</form>
-			
+			<!-- Get last 5 Items added Button -->
+			<a th:href="@{/getMostRecent}"
+				class="btn btn-lrg btn-info mb-4 col-6"
+				>
+				Most Recent Additions
+			</a>
 		</div>
 		
-		<br><br>
-		<h3 th:text=" 'Displaying: ' +${items.size()} + ' out of a maximum of 200 Results'" style="text-align: center"></h3>
-		<br>
-		
 	</div>
-
-	<table class="table table-striped table-bordered" style="text-align: center">
-		<thead class="thead-dark">
-			<th style="width: 25%">Name</th>
-			<th style="width: 10%">Price</th>
-			<th style="width: 25%">Category</th>
-			<th style="width: 25%">Actions</th>
-		</thead>
-		
-		<tbody>
-			<tr th:each="tempItem: ${items}">
-				<td th:text="${tempItem.name}"></td>
-				<td th:text="${tempItem.price}"></td>
-				<td th:text="${tempItem.category}"></td>
-				
-				<!-- Update and Delete buttons-->
-				<td>
-					<a th:href="@{/update(itemId=${tempItem.id})}"
-						class ="btn btn-info btn-sm">
-						Edit Item
-					</a>
-				
-					<a th:href="@{/delete(itemId=${tempItem.id})}"
-						class ="btn btn-danger btn-sm">
-						Delete Item
-					</a>
-				</td>
-		</tbody>
-	</table>
+	
+	<div>
+		<table class="table table-striped table-bordered" style="text-align: center">
+			<thead class="thead-dark">
+				<th style="width: 25%">Name</th>
+				<th style="width: 10%">Price</th>
+				<th style="width: 25%">Category</th>
+				<th style="width: 25%">Actions</th>
+			</thead>
+			
+			<tbody>
+				<tr th:each="tempItem: ${items}">
+					<td th:text="${tempItem.name}"></td>
+					<td th:text="${tempItem.price}"></td>
+					<td th:text="${tempItem.category}"></td>
+					
+					<!-- Update and Delete buttons-->
+					<td>
+						<a th:href="@{/update(itemId=${tempItem.id})}"
+							class ="btn btn-info btn-sm">
+							Edit Item
+						</a>
+					
+						<a th:href="@{/delete(itemId=${tempItem.id})}"
+							class ="btn btn-danger btn-sm">
+							Delete Item
+						</a>
+					</td>
+			</tbody>
+		</table>
+	</div>
 	
 	<footer style="text-align: center;background-color: silver">
 		<div >
