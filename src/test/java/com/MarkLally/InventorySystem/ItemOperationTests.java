@@ -157,6 +157,8 @@ public class ItemOperationTests {
 		for(Item item: searchResults)
 			assertTrue(item.getPrice() >= 200 && item.getPrice() <= 300);
 		
+		//TODO Add default max and min prices, query requires 2 min and max!
+		
 	}
 
 	

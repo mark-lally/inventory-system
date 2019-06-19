@@ -81,8 +81,8 @@ public class HomeController {
 		return "redirect:";
 	}
 	
-	@GetMapping("/filter")
-	public String filter(@RequestParam(value="searchTerm", required=false) String searchTerm, Model theModel) {
+	@GetMapping("/filterCategory")
+	public String filterCategory(@RequestParam(value="searchTerm", required=false) String searchTerm,Model theModel) {
 		
 		// Call custom query on search term and apply result to model
 		itemList = itemRepo.findByCategoryIgnoreCase(searchTerm);		
@@ -90,4 +90,18 @@ public class HomeController {
 		
 		return "index";
 	}
+	
+	@GetMapping("/filterPrice")
+	public String filterPrice(@RequestParam(value="min", required=false) int minPrice,
+							  @RequestParam(value="max", required=false) int maxPrice,
+							  Model theModel) {
+		
+		// Call custom price search query and update model
+		itemList = itemRepo.findByPriceBetween(minPrice, maxPrice);
+		theModel.addAttribute("items", itemList);
+		
+		return "index";
+		
+	}
+	
 }
