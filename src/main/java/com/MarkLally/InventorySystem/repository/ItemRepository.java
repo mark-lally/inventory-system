@@ -16,4 +16,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	// Get last 5 items added to inventory based on SQL timestamps
 	List<Item> findTop5ByOrderByDateDesc();
 	
+	// Query to help enforce max item count of 5
+	List<Item> findByName(String itemName);
+	
 }

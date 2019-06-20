@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Item {
@@ -17,13 +20,17 @@ public class Item {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column
+	@Column()
+	@NotBlank(message="Must enter a valid name")
 	private String name;
 	
 	@Column
+	@Min(value=0, message="Price must be greater or equal to 0!")
+	@Max(value=2147483647, message="Price cannot be that high")
 	private int price;
 	
 	@Column
+	@NotBlank(message="Must enter a valid category")
 	private String category;
 	
 	// A column to hold insertion timestamp for this object. Defaults to current timeStamp

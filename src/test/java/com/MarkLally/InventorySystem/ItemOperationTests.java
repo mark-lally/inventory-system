@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.MarkLally.InventorySystem.entity.Item;
 import com.MarkLally.InventorySystem.repository.ItemRepository;
-import com.MarkLally.InventorySystem.utility.UtilityMapping;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +25,6 @@ public class ItemOperationTests {
 	
 	Item exampleItem1, exampleItem2;
 	List<Item> itemList;
-	UtilityMapping<String, Integer> countsMap;
 	
 	int maxInvSize;
 	int maxItemCount;
@@ -40,8 +38,6 @@ public class ItemOperationTests {
 		exampleItem1 = new Item(1, "Pen", 500, "School Appliances");
 		exampleItem2 = new Item();
 		itemList = new ArrayList<Item>();
-		// Test size constraints with a max Inventory size of 5 and max item count of 2
-		countsMap = new UtilityMapping<String, Integer>(maxInvSize, maxItemCount);
 	}
 	
 
@@ -50,16 +46,31 @@ public class ItemOperationTests {
 		assertEquals("Pen", exampleItem1.getName());
 		assertEquals(500, exampleItem1.getPrice());
 		assertEquals("School Appliances", exampleItem1.getCategory());
+		assertEquals(1, exampleItem1.getId());
+		
+		long millis = System.currentTimeMillis();
+		Date testDate = new Date(millis);
+		exampleItem1.setDate(testDate);
+		assertEquals(testDate, exampleItem1.getDate());
 	}
 	
 	@Test
-	public void testSetters() {
+	public void testSettersAndToString() {
 		exampleItem2.setName("Microscope");
 		assertEquals("Microscope", exampleItem2.getName());
 		exampleItem2.setPrice(3000);
 		assertEquals(3000, exampleItem2.getPrice());
 		exampleItem2.setCategory("Lab Equipment");
 		assertEquals("Lab Equipment", exampleItem2.getCategory());
+		exampleItem2.setId(4);
+		assertEquals(4, exampleItem2.getId());
+		
+		assertEquals("Item [id=" + exampleItem2.getId() + ", "
+						+ "name=" + exampleItem2.getName() + ", "
+						+ "price=" + exampleItem2.getPrice() + ", "
+						+ "category=" + exampleItem2.getCategory() + ", "
+						+ "date=" + exampleItem2.getDate()
+						+ "]", exampleItem2.toString());
 	}
 	
 	@Test
@@ -87,41 +98,7 @@ public class ItemOperationTests {
 		itemList = repo.findAll();
 		assertTrue(itemList.size() == 0);
 	}
-	
-	@Test
-	public void testQuantityConstraints() {
-		
-		String key = exampleItem1.getName();
-		int value = 1;
-		
-		countsMap.put(key, value);
-		assertTrue(countsMap.size() == 1);
-		assertTrue(countsMap.get(key) == 1);
-		
-		exampleItem2 = new Item(2, "Book", 500, "School Appliances");
-		Item exampleItem3 = new Item(3, "Projector", 500, "School Appliances");
-		Item exampleItem4 = new Item(4, "Chalk", 500, "School Appliances");
-		Item exampleItem5 = new Item(5, "Chair", 500, "School Appliances");
-		Item exampleItem6 = new Item(6, "Ink", 500, "School Appliances");
-		
-		countsMap.put(exampleItem2.getName(), 1);
-		countsMap.put(exampleItem3.getName(), 1);
-		countsMap.put(exampleItem4.getName(), 1);
-		countsMap.put(exampleItem5.getName(), 1);
-		countsMap.put(exampleItem6.getName(), 1);
-		
-		// Check max size not exceeded
-		assertTrue("Inventory max size exceeded, size is: " +countsMap.size(), countsMap.size() <= maxInvSize);
-		Set<String> keys = countsMap.keySet();
-		// Last item "Ink" should not be added - inventory is full
-		assertEquals("[Pen, Book, Projector, Chalk, Chair]", keys.toString());
-		
-		// Increase amount of Pens past max
-		countsMap.put(key, ++value); // Count now 2, Max is also 2;
-		countsMap.put(key, ++value); // Count now 3, Max is 2;
-		
-		assertTrue("Max itemCount exceeded: "+countsMap.get(key),countsMap.get(key) <= 2);
-	}
+
 	
 	@Test
 	public void testCustomJPADataQueries() {
@@ -150,13 +127,13 @@ public class ItemOperationTests {
 		}
 		
 		// Call custom price range search
-		// SQL BETWEEN clause includes the min and max bounds in its results
+		// SQL 'BETWEEN' clause includes the min and max bounds in its results
 		searchResults = repo.findByPriceBetween(200, 300);
 		assertTrue(searchResults.size() == 2);
 		for(Item item: searchResults)
 			assertTrue(item.getPrice() >= 200 && item.getPrice() <= 300);
 		
-		//TODO Add default max and min prices, query requires 2 min and max!
+		
 		
 	}
 

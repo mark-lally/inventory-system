@@ -24,14 +24,17 @@
 			style="float: left;">
 			Filter Results
 		</a>
-		
+		<a th:href="@{/}" 
+			class="btn btn-danger btn-lrg">
+			Clear Filters
+		</a>
 		<!-- Add to Inventory Link Button -->
 		<a th:href="@{/addItemForm}"
 			class="btn btn-warning btn-lrg mr-4"
 			style="float: right"
-			th:classappend="${items.size() >= 6} ? disabled : ''"
+			th:classappend="${items.size() >= MAX_INV} ? disabled : ''"
 			>
-			<span th:text="${items.size() >= 6} ? 'Inventory is full! Delete some items' : 'Add an Item'"></span>
+			<span th:text="${items.size() >= MAX_INV} ? 'Inventory is full! Delete some items' : 'Add an Item'"></span>
 		</a>
 		
 		
@@ -39,7 +42,8 @@
 		<!-- Result Count Heading -->
 		<div style="text-align: center">
 			<br><br>
-			<h3 th:text=" 'Displaying: ' +${items.size()} + ' out of a maximum of 200 Results'" style="text-align: center"></h3>
+			<h3 th:text=" 'Displaying: ' +${items.size()} + ' out of a maximum of ' + ${MAX_INV} + ' Results'" 
+				style="text-align: center"></h3>
 			<br>
 			
 			<!-- Get last 5 Items added Button -->

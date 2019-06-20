@@ -27,5 +27,23 @@ public class ControllerTests {
 		this.mockMvc.perform(get("/helloTest")).andDo(print()).andExpect(status().isOk())
 			.andExpect(content().string(containsString("Hello World")));
 	}
+	
+	@Test
+	public void testGetInventory() throws Exception{
+		
+		// Assert endpoints return HTTP status codes for success (200)
+		this.mockMvc.perform(get("/")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/addItemForm")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/filterCategory")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/filterForm")).andExpect(status().isOk());
+		
+		// Assert codes in in the 4xx range
+		this.mockMvc.perform(get("/save")).andExpect(status().isMethodNotAllowed());
+		this.mockMvc.perform(get("/update")).andExpect(status().is4xxClientError());
+		this.mockMvc.perform(get("/delete")).andExpect(status().is4xxClientError());
+		
+		
+		
+	}
 
 }
